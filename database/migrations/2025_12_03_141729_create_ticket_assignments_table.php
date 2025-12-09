@@ -15,7 +15,7 @@ public function up(): void
         $table->id('assign_id'); // primary key
         $table->unsignedBigInteger('ticket_id'); // foreign key
         $table->string('assigned_to', 100);
-        $table->timestamp('assigned_at')->useCurrent();
+        $table->timestamp('created_atj')->useCurrent();
 
         $table->enum('status', ['pending', 'inprogress', 'completed', 'onhold'])
               ->default('pending');

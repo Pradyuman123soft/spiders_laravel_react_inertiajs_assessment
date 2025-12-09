@@ -22,14 +22,29 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
-
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
+                                    href={route("dashboard")}
+                                    active={route().current("dashboard")}
                                 >
-                                   User Dashboard
+                                    Home
                                 </NavLink>
+                                <NavLink
+                                    href={route("user.dashboard")}
+                                    active={route().current("user.dashboard")}
+                                >
+                                    User Dashboard
+                                </NavLink>
+
+                                {/* Admin Dashboard (visible only when user is admin) */}
+                                {user?.is_admin === 1 && (
+                                    <NavLink
+                                        href={route("admin.dashboard")}
+                                        active={route().current("admin.dashboard")}
+                                    >
+                                        Admin Dashboard
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
