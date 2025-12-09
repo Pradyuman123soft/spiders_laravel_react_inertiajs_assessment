@@ -2,7 +2,7 @@ import { router } from "@inertiajs/react";
 import { useState } from "react";
 
 
-export default function AssignedTickets({ tickets }) {
+export default function PendingTickets({ tickets }) {
     const [showModal, setShowModal] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [formData, setFormData] = useState({
@@ -15,10 +15,10 @@ export default function AssignedTickets({ tickets }) {
     const openModal = (ticket) => {
         setSelectedTicket(ticket);
         setFormData({
-            'title': ticket.name,
-            'description': ticket.description,
-            'status': ticket.assignment?.status,
-            'file': ticket.file,
+            'title': ticket.ticket?.name,
+            'description': ticket.ticket?.description,
+            'status': ticket.status,
+            'file': ticket.ticket?.file,
         })
         setShowModal(true);
     }
@@ -32,7 +32,7 @@ export default function AssignedTickets({ tickets }) {
         if (formData.file instanceof File) {
             formDataObj.append("file", formData.file);
         }
-        router.post(`/admin/ticket/update/${selectedTicket.ticket_id}`, formDataObj, {
+        router.post(`/user/ticket/update/${selectedTicket.ticket_id}`, formDataObj, {
             forceFormData: true,
             onSuccess: () => {
                 setShowModal(false);
@@ -53,7 +53,7 @@ export default function AssignedTickets({ tickets }) {
                     <thead>
                         <tr className="bg-gray-100 text-gray-700 uppercase text-sm">
                             <th className="p-3">Ticket ID</th>
-                            <th className="p-3">Assigned To</th>
+                            <th className="p-3">Created By</th>
                             <th className="p-3">Title</th>
                             <th className="p-3">Status</th>
                             <th className="p-3">File</th>
@@ -62,11 +62,11 @@ export default function AssignedTickets({ tickets }) {
                     </thead>
 
                     <tbody>
-                        {tickets.filter(t => t.assignment?.status === "inprogress" || t.assignment?.status === "onhold").length === 0 ? (
-                            <p className="text-gray-600">No Working Tickets Yet</p>):(
-                        tickets.filter(t => t.assignment?.status === "inprogress" || t.assignment?.status === "onhold").map((t, index) => (
+                        {tickets.filter(t => t.status === "pending").length === 0 ? (
+                            <p className="text-gray-600">No  pending Tickets Yet</p>):(
+                        tickets.filter(t => t.status === "pending").map((t, index) => (
                             <tr
-                                key={t.ticket_id}
+                                key={t.ticket?.ticket_id}
                                 className={`border-t hover:bg-gray-50 transition ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
                                     }`}
                             >
@@ -75,31 +75,32 @@ export default function AssignedTickets({ tickets }) {
                                 </td>
 
                                 <td className="p-3 text-gray-700">
-                                    {t.assignment?.assigned_to || (
+                                    {t.ticket?.created_by || (
                                         <span className="text-gray-400">Not Assigned</span>
                                     )}
                                 </td>
 
-                                <td className="p-3 text-gray-700">{t.name.substring(0, 10)}...</td>
+                                <td className="p-3 text-gray-700">{t.ticket.name.substring(0, 10)}...
+                                </td>
 
                                 <td className="p-3">
                                     <span
                                         className={`px-3 py-1 text-sm rounded-full font-semibold
-                                            ${t.assignment?.status === "completed"
+                                            ${t.status === "completed"
                                                 ? "bg-green-100 text-green-700"
-                                                : t.assignment?.status === "inprogress"
+                                                : t.status === "inprogress"
                                                     ? "bg-blue-100 text-blue-700"
                                                     : "bg-yellow-100 text-yellow-700"
                                             }
                                         `}
                                     >
-                                        {t.assignment?.status || "Pending"}
+                                        {t.status || "Pending"}
                                     </span>
                                 </td>
                                 <td className="p-2">
-                                    {t.file ? (
+                                    {t.ticket?.file ? (
                                         <a
-                                            href={`/storage/${t.file}`}
+                                            href={`/storage/${t.ticket?.file}`}
                                             download
                                             target="_blank"
                                             className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -124,7 +125,8 @@ export default function AssignedTickets({ tickets }) {
                     </tbody>
                 </table>
             </div>
-            {/* ------------ MODAL ------------- */}
+
+            {/* ------------Update MODAL ------------- */}
 
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
@@ -139,9 +141,7 @@ export default function AssignedTickets({ tickets }) {
                                 <input
                                     type="text"
                                     value={formData.title}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, title: e.target.value })
-                                    }
+                                    disabled
                                     className="w-full border rounded-lg p-2"
                                 />
                             </div>
@@ -150,23 +150,10 @@ export default function AssignedTickets({ tickets }) {
                                 <input
                                     type="text"
                                     value={formData.description}
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, description: e.target.value })
-                                    }
+                                    disabled
                                     className="w-full border rounded-lg p-2"
                                 />
                             </div>
-                            <div>
-                                <label className="block font-medium mb-1">Choose File</label>
-                                <input
-                                    type="file"
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, file: e.target.files[0] })
-                                    }
-                                    className="w-full border rounded-lg p-2"
-                                />
-                            </div>
-
                             <div>
                                 <label className="block font-medium mb-1">Status</label>
                                 <select
@@ -178,7 +165,7 @@ export default function AssignedTickets({ tickets }) {
                                 >
                                     <option value="pending">Pending</option>
                                     <option value="inprogress">In Progress</option>
-                                    <option value="completed">Completed</option>
+                                    <option value="onhold">onhold</option>
                                 </select>
 
                             </div>

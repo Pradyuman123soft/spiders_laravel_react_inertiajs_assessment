@@ -29,13 +29,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Home
                                 </NavLink>
+                                {user?.is_admin !== 1 &&(
                                 <NavLink
                                     href={route("user.dashboard")}
                                     active={route().current("user.dashboard")}
                                 >
                                     User Dashboard
                                 </NavLink>
-
+                                )}
                                 {/* Admin Dashboard (visible only when user is admin) */}
                                 {user?.is_admin === 1 && (
                                     <NavLink

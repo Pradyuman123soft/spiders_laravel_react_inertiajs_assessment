@@ -2,7 +2,7 @@ import { router } from "@inertiajs/react";
 import { useState } from "react";
 
 
-export default function AssignedTickets({ tickets }) {
+export default function PendingTickets({ tickets }) {
     const [showModal, setShowModal] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [formData, setFormData] = useState({
@@ -62,9 +62,9 @@ export default function AssignedTickets({ tickets }) {
                     </thead>
 
                     <tbody>
-                        {tickets.filter(t => t.assignment?.status === "inprogress" || t.assignment?.status === "onhold").length === 0 ? (
-                            <p className="text-gray-600">No Working Tickets Yet</p>):(
-                        tickets.filter(t => t.assignment?.status === "inprogress" || t.assignment?.status === "onhold").map((t, index) => (
+                        {tickets.filter(t => t.assignment?.status === "pending").length === 0 ? (
+                            <p className="text-gray-600">No  pending Tickets Yet</p>):(
+                        tickets.filter(t => t.assignment?.status === "pending").map((t, index) => (
                             <tr
                                 key={t.ticket_id}
                                 className={`border-t hover:bg-gray-50 transition ${index % 2 === 0 ? "bg-white" : "bg-gray-50"

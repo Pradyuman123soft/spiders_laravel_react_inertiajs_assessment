@@ -62,7 +62,9 @@ export default function UserTickets({ tickets }) {
                     </thead>
 
                     <tbody>
-                        {tickets && tickets.length > 0 ? (tickets.map((t, index) => (
+                        {tickets.filter(t => t.status === "inprogress" || t.status === "onhold").length === 0 ? (
+                            <p className="text-gray-600">No Working Tickets Yet</p>):(
+                        tickets.filter(t => t.status === "inprogress" || t.status === "onhold").map((t, index) => (
                             <tr
                                 key={t.ticket?.ticket_id}
                                 className={`border-t hover:bg-gray-50 transition ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
@@ -119,9 +121,7 @@ export default function UserTickets({ tickets }) {
                                     </button>
                                 </td>
                             </tr>
-                        ))) :
-                            <tr><td>No Tickets assigned You</td></tr>
-                        }
+                        )))}
                     </tbody>
                 </table>
             </div>

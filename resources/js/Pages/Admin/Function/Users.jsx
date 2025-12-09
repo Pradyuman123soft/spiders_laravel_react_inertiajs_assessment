@@ -15,7 +15,8 @@ export default function Users({ users, openCreateTicket }) {
                     </thead>
 
                     <tbody>
-                        {users.map((u, i) => (
+                        {users.length === 0 ? (<p className="text-gray-600">No users Available in Databse</p>):( 
+                        users.map((u, i) => (
                             <tr
                                 key={u.id}
                                 className={`${i % 2 === 0 ? "bg-white" : "bg-gray-50"
@@ -35,7 +36,7 @@ export default function Users({ users, openCreateTicket }) {
                                     </button>
                                 </td>
                             </tr>
-                        ))}
+                        )))}
                     </tbody>
                 </table>
             </div>
