@@ -1,59 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎫 Ticket Management System (Laravel + React + Inertia.js)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack Ticket Management System built using Laravel, React, and Inertia.js.
+Supports Admin Panel, User Dashboard, ticket creation, assignment, status updates, and file uploads.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Admin
+- Create new tickets  
+- Assign tickets to users  
+- Update ticket details  
+- View all tickets with statuses  
+- Protected admin routes using middleware  
+- File upload support  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### User
+- View only assigned tickets  
+- Update ticket status  
+- Download ticket files  
+- Clean and simple UI  
 
-## Learning Laravel
+### System
+- Laravel + React + Inertia.js architecture  
+- MySQL database  
+- Role-based authentication  
+- Ticket & Ticket Assignment relationships  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠 Tech Stack
 
-## Laravel Sponsors
+Backend: Laravel   
+Frontend: React + Inertia.js  
+Auth: Laravel Breeze (React)  
+Database: MySQL  
+Storage: Laravel Public Disk  
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 📦 Installation
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1. Clone Repo
+git clone (https://github.com/Pradyuman123soft/spiders_laravel_react_inertiajs_assessment.git)
+cd spiders_laravel_react_inertiajs_assessment
 
-## Contributing
+2. Install PHP dependencies
+composer install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Install JavaScript dependencies
+npm install
 
-## Code of Conduct
+4. Configure .env
+cp .env.example .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Update database:
 
-## Security Vulnerabilities
+DB_DATABASE=tickets  
+DB_USERNAME=root  
+DB_PASSWORD=
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Generate key:
+php artisan key:generate
 
-## License
+5. Run migrations
+php artisan migrate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Start servers
+Backend → php artisan serve  
+Frontend → npm run dev  
+
+---
+
+## 🔐 Authentication & Roles
+
+Uses Laravel Breeze (React).
+
+Admin routes:
+Route::middleware(['auth', 'admin'])->group(function () {
+    // admin
+});
+
+User route:
+Route::get('/user/dashboard', ...);
+
+---
+
+## 🔗 Model Relationships
+
+### Ticket.php
+public function assignments() {
+    return $this->hasMany(TicketAssignment::class, 'ticket_id', 'ticket_id');
+}
+
+### TicketAssignment.php
+public function ticket() {
+    return $this->belongsTo(Ticket::class, 'ticket_id', 'ticket_id');
+}
+
+---
+
+## 📤 File Upload & Download
+
+Upload:
+$path = $request->file('file')->store('tickets', 'public');
+
+Download (React):
+<a href={`/storage/${t.file}`} download>Download</a>
+
+---
+
+## 📁 Project Structure
+
+app/
+  Models/
+    Ticket.php
+    TicketAssignment.php
+  Http/Controllers/
+    AdminController.php
+    TicketController.php
+    UserController.php
+
+resources/js/Pages/
+  Admin/
+  Users/
+  Components/
+  Layouts/
+
+---
+
+
+## 👤 Author
+Pradyuman Chauhan
