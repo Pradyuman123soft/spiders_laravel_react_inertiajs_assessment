@@ -23,7 +23,7 @@ export default function Dashboard() {
                 </div>
             </div> */}
                   <div className="min-h-screen bg-gray-50">
-            <Head title="About - CRM Ticket System" />
+            <Head title="Home - CRM Ticket System" />
 
             {/* Header Section */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 py-16 px-6 shadow-md">

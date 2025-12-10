@@ -37,7 +37,7 @@ export default function AdminLayout({ children, setPage, page }) {
                                     ? "bg-white text-indigo-700 shadow-md"
                                     : "text-indigo-200 hover:bg-indigo-600 hover:text-white"}`}
                         >
-                            🎫 Assigned Tickets
+                            🎫 Working Tickets
                         </button>
                     </li>
                     <li>

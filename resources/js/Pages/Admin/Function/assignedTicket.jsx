@@ -46,7 +46,7 @@ export default function AssignedTickets({ tickets }) {
 
     return (
         <div className="p-6">
-            <h1 className="text-3xl font-semibold mb-6">Assigned Tickets</h1>
+            <h1 className="text-3xl font-semibold mb-6">Working Tickets</h1>
 
             <div className="overflow-x-auto rounded-xl shadow-md border">
                 <table className="w-full text-left">
