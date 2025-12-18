@@ -6,7 +6,6 @@ import CreateTicket from "./Function/CreateTicket";
 import AssignedTickets from "./Function/assignedTicket";
 import PendingTickets from "./Function/PendingTickets";
 import CompletedTickets from "./Function/CompletedTickets";
-import Edit from "../Profile/Edit";
 
 
 export default function Dashboard({ users, tickets }) {

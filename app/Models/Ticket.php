@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use PhpParser\Node\Expr\Assign;
 
 class Ticket extends Model
 {
@@ -18,6 +17,16 @@ class Ticket extends Model
     ];
 
     public function assignment(){
-        return $this->hasOne(TicketAssignment::class, 'ticket_id','ticket_id');
+        return $this->hasOne(
+            TicketAssignment::class,
+            'ticket_id',
+            'ticket_id');
+    }
+    public function activities(){
+        return $this->hasMany(
+            TicketActivity::class,
+            'ticket_id',
+            'ticket_id'
+    );
     }
 }

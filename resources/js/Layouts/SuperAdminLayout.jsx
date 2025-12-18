@@ -1,4 +1,4 @@
-export default function AdminLayout({ children, setPage, page }) {
+export default function SuperAdminLayout({ children, setPage, page }) {
     return (
         <div className="h-screen flex bg-gray-50">
 
@@ -8,7 +8,7 @@ export default function AdminLayout({ children, setPage, page }) {
                 {/* Header */}
                 <div className="p-6 border-b border-white/20">
                     <h2 className="text-2xl font-bold tracking-wide">
-                        User Panel
+                       Super Admin Panel
                     </h2>
                     <p className="text-indigo-200 text-sm mt-1">
                         Manage system controls
@@ -17,49 +17,28 @@ export default function AdminLayout({ children, setPage, page }) {
 
                 {/* Menu */}
                 <ul className="flex-1 p-4 space-y-3">
-                    {/* TICKETS */}
+
+                    {/* USERS */}
                     <li>
                         <button
-                            onClick={() => setPage("PendingTickets")}
+                            onClick={() => setPage("users")}
                             className={`w-full px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 shadow-sm
-                                ${page === "PendingTickets"
+                                ${page === "users"
                                     ? "bg-white text-indigo-700 shadow-md"
                                     : "text-indigo-200 hover:bg-indigo-600 hover:text-white"}`}
                         >
-                            🎫 Pending Tickets
+                            👥 Users
                         </button>
                     </li>
                     <li>
                         <button
-                            onClick={() => setPage("WorkingTickets")}
+                            onClick={() => setPage("Admins")}
                             className={`w-full px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 shadow-sm
-                                ${page === "WorkingTickets"
+                                ${page === "Admins"
                                     ? "bg-white text-indigo-700 shadow-md"
                                     : "text-indigo-200 hover:bg-indigo-600 hover:text-white"}`}
                         >
-                            🎫 Working Tickets
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            onClick={() => setPage("CreateTickets")}
-                            className={`w-full px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 shadow-sm
-                                ${page === "CreateTickets"
-                                    ? "bg-white text-indigo-700 shadow-md"
-                                    : "text-indigo-200 hover:bg-indigo-600 hover:text-white"}`}
-                        >
-                            🎫 Create Tickets
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            onClick={() => setPage("CompleteTickets")}
-                            className={`w-full px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 shadow-sm
-                                ${page === "CompleteTickets"
-                                    ? "bg-white text-indigo-700 shadow-md"
-                                    : "text-indigo-200 hover:bg-indigo-600 hover:text-white"}`}
-                        >
-                            🎫 Complete Tickets
+                            👥 Admins
                         </button>
                     </li>
                 </ul>

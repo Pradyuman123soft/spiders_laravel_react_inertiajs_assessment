@@ -10,7 +10,11 @@ class UserController extends Controller
 {
     public function UserDashboardData(){
         $userEmail = Auth::user()->email;
-        $tickets = TicketAssignment::with('ticket')->where('assigned_to', $userEmail)->get();
+        $tickets = TicketAssignment::with([
+            'ticket.activities' => function ($query) {
+                $query->latest();
+            }
+        ])->where('assigned_to', $userEmail)->get();
 
         return Inertia::render('Users/Dashboard',[
             'tickets' => $tickets,

@@ -1,8 +1,20 @@
 import { router } from "@inertiajs/react";
 import { useState } from "react";
+import ActivityLogModal from "./ActivityLogModal";
 
 
 export default function CompletedTickets({ tickets }) {
+    const [showLogs, setShowLogs] = useState(false);
+    const [selectedTicket, setSelectedTicket] = useState(null);
+    const openLogs = (ticket) => {
+        setSelectedTicket(ticket);
+        setShowLogs(true);
+    };
+
+    const closeLogs = () => {
+        setShowLogs(false);
+        setSelectedTicket(null);
+    };
 
     return (
         <div className="p-6">
@@ -17,63 +29,83 @@ export default function CompletedTickets({ tickets }) {
                             <th className="p-3">Title</th>
                             <th className="p-3">Status</th>
                             <th className="p-3">File</th>
+                            <th className="p-3">Check Logs</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {tickets.filter(t => t.assignment?.status === "completed").length === 0 ? (
-                            <p className="text-gray-600">No completed Tickets Yet</p>):(
-                        tickets.filter(t => t.assignment?.status === "completed").map((t, index) => (
-                            <tr
-                                key={t.ticket_id}
-                                className={`border-t hover:bg-gray-50 transition ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                                    }`}
-                            >
-                                <td className="p-3 font-medium text-gray-800">
-                                    {t.ticket_id}
-                                </td>
+                            <p className="text-gray-600">No completed Tickets Yet</p>) : (
+                            tickets.filter(t => t.assignment?.status === "completed").map((t, index) => (
+                                <tr
+                                    key={t.ticket_id}
+                                    className={`border-t hover:bg-gray-50 transition ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                                        }`}
+                                >
+                                    <td className="p-3 font-medium text-gray-800">
+                                        {t.ticket_id}
+                                    </td>
 
-                                <td className="p-3 text-gray-700">
-                                    {t.assignment?.assigned_to || (
-                                        <span className="text-gray-400">Not Assigned</span>
-                                    )}
-                                </td>
+                                    <td className="p-3 text-gray-700">
+                                        {t.assignment?.assigned_to || (
+                                            <span className="text-gray-400">Not Assigned</span>
+                                        )}
+                                    </td>
 
-                                <td className="p-3 text-gray-700">{t.name.substring(0, 10)}...</td>
+                                    <td className="p-3 text-gray-700">{t.name.substring(0, 10)}...</td>
 
-                                <td className="p-3">
-                                    <span
-                                        className={`px-3 py-1 text-sm rounded-full font-semibold
+                                    <td className="p-3">
+                                        <span
+                                            className={`px-3 py-1 text-sm rounded-full font-semibold
                                             ${t.assignment?.status === "completed"
-                                                ? "bg-green-100 text-green-700"
-                                                : t.assignment?.status === "inprogress"
-                                                    ? "bg-blue-100 text-blue-700"
-                                                    : "bg-yellow-100 text-yellow-700"
-                                            }
+                                                    ? "bg-green-100 text-green-700"
+                                                    : t.assignment?.status === "inprogress"
+                                                        ? "bg-blue-100 text-blue-700"
+                                                        : "bg-yellow-100 text-yellow-700"
+                                                }
                                         `}
-                                    >
-                                        {t.assignment?.status || "Pending"}
-                                    </span>
-                                </td>
-                                <td className="p-2">
-                                    {t.file ? (
-                                        <a
-                                            href={`/storage/${t.file}`}
-                                            download
-                                            target="_blank"
-                                            className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                                         >
-                                            Download
-                                        </a>
-                                    ) : (
-                                        <span className="text-gray-500">No File</span>
-                                    )}
-                                </td>
-                            </tr>
-                        )))}
+                                            {t.assignment?.status || "Pending"}
+                                        </span>
+                                    </td>
+                                    <td className="p-2">
+                                        {t.file ? (
+                                            <a
+                                                href={`/storage/${t.file}`}
+                                                download
+                                                target="_blank"
+                                                className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                                            >
+                                                Download
+                                            </a>
+                                        ) : (
+                                            <span className="text-gray-500">No File</span>
+                                        )}
+                                    </td>
+                                    <td className="p-3">
+                                        <button
+                                            onClick={() => openLogs(t)}
+                                            className="p-2 rounded-full bg-green-100 text-green-600
+                                            hover:bg-green-200 hover:scale-105
+                                            transition-all duration-200"
+                                            title="View Logs"
+                                        >
+                                            📜
+                                        </button>
+                                    </td>
+                                </tr>
+                            )))}
                     </tbody>
                 </table>
             </div>
+
+            {/* Logs Modal */}
+            {showLogs && selectedTicket && (
+                <ActivityLogModal
+                    ticket={selectedTicket}
+                    onClose={closeLogs}
+                />
+            )}
         </div>
     );
 }

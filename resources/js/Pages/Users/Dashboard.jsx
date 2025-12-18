@@ -1,9 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import UserLayout from "@/Layouts/UserLayout";
 import { useState } from "react";
-import UserTickets from "./Function/UserTickets";
 import PendingTickets from "./Function/NewTickets";
 import CompleteTickets from "./Function/CompleteTickets";
+import WorkingTickets from "./Function/WorkingTickets";
+import CreateTicket from "./Function/CreateTicket";
 
 export default function UserDashboard({ tickets }) {
     const [page, setPage] = useState('PendingTickets');
@@ -11,7 +12,8 @@ export default function UserDashboard({ tickets }) {
         <AuthenticatedLayout>
             <UserLayout setPage={setPage} page={page} >
                 {page === 'PendingTickets' && <PendingTickets tickets={tickets}/>}
-                {page === 'AssignedTickets' && <UserTickets tickets={tickets}/>}
+                {page === 'WorkingTickets' && <WorkingTickets tickets={tickets}/>}
+                {page === 'CreateTickets' && <CreateTicket setPage={setPage}/>}
                 {page === 'CompleteTickets' && <CompleteTickets tickets={tickets}/>}
             </UserLayout>
         </AuthenticatedLayout>

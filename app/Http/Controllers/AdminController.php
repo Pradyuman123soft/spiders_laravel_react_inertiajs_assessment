@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Ticket;
 use App\Models\User;
+use App\Models\Role;
 use Inertia\Inertia;
 
 class AdminController extends Controller
@@ -12,12 +13,11 @@ class AdminController extends Controller
     public function AdminDashboardData(){
         
         $adminEmail = Auth::user()->email;
-        $tickets = Ticket::with('assignment')->where('created_by',$adminEmail)->get();
-        
-        $users = User::where('is_admin', 0)->get();
+        $tickets = Ticket::with('assignment','activities')->where('created_by',$adminEmail)->get();
         
         return Inertia::render('Admin/Dashboard',[
-            'users' => $users,
+            'users' => User::with('roles')->get(),
+            'roles'=> Role::all(),
             'tickets' => $tickets
         ]);
     }

@@ -29,21 +29,29 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Home
                                 </NavLink>
-                                {user?.is_admin !== 1 &&(
-                                <NavLink
-                                    href={route("user.dashboard")}
-                                    active={route().current("user.dashboard")}
-                                >
-                                    User Dashboard
-                                </NavLink>
+                                {user?.roles?.some(r => r.name === 'user') && (
+                                    <NavLink
+                                        href={route("user.dashboard")}
+                                        active={route().current("user.dashboard")}
+                                    >
+                                        User Dashboard
+                                    </NavLink>
                                 )}
                                 {/* Admin Dashboard (visible only when user is admin) */}
-                                {user?.is_admin === 1 && (
+                                {user?.roles?.some(r => r.name === 'admin') && (
                                     <NavLink
                                         href={route("admin.dashboard")}
                                         active={route().current("admin.dashboard")}
                                     >
                                         Admin Dashboard
+                                    </NavLink>
+                                )}
+                                {user?.roles?.some(r => r.name === 'superadmin') && (
+                                    <NavLink 
+                                        href={route('superadmin.dashboard')}
+                                        active={route().current("superadmin.dashboard")
+                                    }>
+                                        Super Admin
                                     </NavLink>
                                 )}
                             </div>
