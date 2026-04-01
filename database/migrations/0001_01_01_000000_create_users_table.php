@@ -16,7 +16,6 @@ Schema::create('users', function (Blueprint $table) {
     $table->string('username', 30);
     $table->string('email', 100)->unique();
     $table->string('password');
-    $table->tinyInteger('is_admin')->default(0);
     $table->timestamp('dt')->useCurrent();
 
     // ADD THIS

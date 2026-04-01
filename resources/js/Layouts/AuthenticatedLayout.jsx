@@ -22,14 +22,38 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
-
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
+                                    href={route("dashboard")}
+                                    active={route().current("dashboard")}
                                 >
-                                   User Dashboard
+                                    Home
                                 </NavLink>
+                                {user?.roles?.some(r => r.name === 'user') && (
+                                    <NavLink
+                                        href={route("user.dashboard")}
+                                        active={route().current("user.dashboard")}
+                                    >
+                                        User Dashboard
+                                    </NavLink>
+                                )}
+                                {/* Admin Dashboard (visible only when user is admin) */}
+                                {user?.roles?.some(r => r.name === 'admin') && (
+                                    <NavLink
+                                        href={route("admin.dashboard")}
+                                        active={route().current("admin.dashboard")}
+                                    >
+                                        Admin Dashboard
+                                    </NavLink>
+                                )}
+                                {user?.roles?.some(r => r.name === 'superadmin') && (
+                                    <NavLink 
+                                        href={route('superadmin.dashboard')}
+                                        active={route().current("superadmin.dashboard")
+                                    }>
+                                        Super Admin
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
